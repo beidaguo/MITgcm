@@ -42,21 +42,15 @@ C     i,j :: Loop counters
       INTEGER i,j
 CEOP
 
-C     Zonal term
+C     Zonal and meridional terms: reuse a single grid traversal.
       DO j=jMin,jMax
        DO i=iMin,iMax
         phiSurfX(i,j)=_recip_dxC(i,j,bi,bj)*
      &   ( Bo_surf(i,j,bi,bj)*etaFld(i,j,bi,bj)
-     &   - Bo_surf(i-1,j,bi,bj)*etaFld(i-1,j,bi,bj) )      
-       ENDDO
-      ENDDO
-
-C     Meridional term
-      DO j=jMin,jMax
-       DO i=iMin,iMax
+     &   - Bo_surf(i-1,j,bi,bj)*etaFld(i-1,j,bi,bj) )
         phiSurfY(i,j)=_recip_dyC(i,j,bi,bj)*
      &   ( Bo_surf(i,j,bi,bj)*etaFld(i,j,bi,bj)
-     &   - Bo_surf(i,j-1,bi,bj)*etaFld(i,j-1,bi,bj) ) 
+     &   - Bo_surf(i,j-1,bi,bj)*etaFld(i,j-1,bi,bj) )
        ENDDO
       ENDDO
 
